@@ -1,0 +1,12 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+data/*.csv
+data/rapports/*.pdf
+models/
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
