@@ -5,7 +5,7 @@ import os
 import subprocess
 
 st.set_page_config(
-    page_title="Audit FDS - Conformite Reglementaire",
+    page_title="Audit FDS - Conformité Réglementaire",
     page_icon="📋",
     layout="wide"
 )
@@ -16,48 +16,48 @@ def load_data():
         return None
     return pd.read_csv("data/fds_clean.csv")
 
-st.title("Audit de Conformite Reglementaire")
+st.title("Audit de Conformité Réglementaire")
 st.caption("Produits de nettoyage industriel - REACH / CLP / Ecolabel EU")
 
-if st.button("Relancer l analyse complete"):
+if st.button("Relancer l'analyse complète"):
     with st.spinner("Analyse en cours..."):
         subprocess.run(["python", "run.py"])
     st.cache_data.clear()
-    st.success("Analyse terminee !")
+    st.success("Analyse terminée !")
 
 df = load_data()
 
 if df is None:
-    st.warning("Aucune donnee. Cliquez sur Relancer l analyse.")
+    st.warning("Aucune donnée. Cliquez sur Relancer l analyse.")
     st.stop()
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Produits analyses",  len(df))
-c2.metric("Conformes",          len(df[df["score_conformite"] >= 70]))
-c3.metric("A surveiller",       len(df[(df["score_conformite"] >= 40) & (df["score_conformite"] < 70)]))
-c4.metric("Critiques",          len(df[df["score_conformite"] < 40]))
+c1.metric("Produits analysés",  len(df))
+c2.metric("Conformes",          len(df[df["score_conformité"] >= 70]))
+c3.metric("À surveiller",       len(df[(df["score_conformité"] >= 40) & (df["score_conformité"] < 70)]))
+c4.metric("Critiques",          len(df[df["score_conformité"] < 40]))
 
 st.divider()
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Score de conformite par produit")
+    st.subheader("Score de conformité par produit")
     fig1 = px.bar(
-        df.sort_values("score_conformite"),
-        x="score_conformite",
+        df.sort_values("score_conformité"),
+        x="score_conformité",
         y="produit",
         orientation="h",
-        color="score_conformite",
+        color="score_conformité",
         color_continuous_scale="RdYlGn",
         range_color=[0, 100],
-        labels={"score_conformite": "Score /100", "produit": ""}
+        labels={"score_conformité": "Score /100", "produit": ""}
     )
     fig1.update_layout(coloraxis_showscale=False)
     st.plotly_chart(fig1, use_container_width=True)
 
 with col2:
-    st.subheader("Repartition par niveau de risque")
+    st.subheader("Répartition par niveau de risque")
     risque_count = df["niveau_risque"].value_counts().reset_index()
     risque_count.columns = ["niveau", "nb"]
     fig2 = px.pie(
@@ -111,7 +111,7 @@ if os.path.exists("data/rapports/audit_fds.pdf"):
     st.subheader("Rapport PDF")
     with open("data/rapports/audit_fds.pdf", "rb") as f:
         st.download_button(
-            label="Telecharger le rapport PDF",
+            label="Télécharger le rapport PDF",
             data=f,
             file_name="audit_fds_conformite.pdf",
             mime="application/pdf"
