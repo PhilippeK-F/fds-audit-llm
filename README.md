@@ -1,6 +1,6 @@
-# Audit FDS + LLM — Conformite Reglementaire
+# Audit FDS + LLM — Conformité Réglementaire
 
-Audit automatique de conformite des produits de nettoyage industriel
+Audit automatique de conformité des produits de nettoyage industriel
 aux normes REACH, CLP et Ecolabel EU, avec analyse par intelligence artificielle.
 
 ---
@@ -8,11 +8,11 @@ aux normes REACH, CLP et Ecolabel EU, avec analyse par intelligence artificielle
 ## Pourquoi ce projet ?
 
 Les entreprises de nettoyage industriel utilisent des dizaines de produits chimiques.
-Verifier manuellement la conformite de chaque produit aux normes europeennes
-(REACH, CLP, directive COV, Ecolabel EU) est une tache longue, technique et a risque.
+Vérifier manuellement la conformité de chaque produit aux normes européennes
+(REACH, CLP, directive COV, Ecolabel EU) est une tâche longue, technique et a risque.
 
-Ce projet automatise entierement cet audit : il analyse les indicateurs de chaque
-produit, detecte les ecarts reglementaires, et genere un rapport detaille
+Ce projet automatise entièrement cet audit : il analyse les indicateurs de chaque
+produit, détecte les écarts réglementaires, et génère un rapport detaillé
 avec recommandations — en quelques secondes.
 
 ---
@@ -27,21 +27,18 @@ Les premiers secours en cas d'accident
 Les conditions de stockage et transport
 La conformité réglementaire (REACH, CLP...)
 
-En nettoyage industriel, chaque produit que tu utilisais sur le terrain avait obligatoirement une FDS fournie par le fabricant — c'est ce document qu'on simule dans le projet.
-En anglais c'est SDS — Safety Data Sheet.
-
 ---
-## Ce que le systeme analyse
+## Ce que le système analyse
 
-Pour chaque produit, le pipeline verifie :
+Pour chaque produit, le pipeline vérifie :
 - COV (Composes Organiques Volatils) vs directive 1999/13/CE (seuil : 30 g/L)
-- Biodegradabilite vs criteres Ecolabel EU (seuil : 60%)
+- Biodegradabilité vs critères Ecolabel EU (seuil : 60%)
 - Ecotoxicite aquatique LC50 vs classification CLP (seuil : 10 mg/L)
-- Conformite REACH et enregistrement ECHA
-- pH dans les limites de securite (4 a 11)
+- Conformité REACH et enregistrement ECHA
+- pH dans les limites de securité (4 a 11)
 
-Un score de conformite sur 100 est calcule pour chaque produit,
-avec trois niveaux : Conforme, Modere, Critique.
+Un score de conformité sur 100 est calculé pour chaque produit,
+avec trois niveaux : Conforme, Modéré, Critique.
 
 ---
 
@@ -54,15 +51,15 @@ avec trois niveaux : Conforme, Modere, Critique.
 
     src/llm/
         analyzer.py      Analyse par LLM (OpenAI GPT-4o-mini ou simulation)
-        reporter.py      Generation du rapport PDF (ReportLab)
+        reporter.py      Génération du rapport PDF (ReportLab)
 
     dashboard/
         app.py           Dashboard Streamlit interactif
 
     data/
-        fds_raw.csv      Donnees brutes extraites
-        fds_clean.csv    Donnees enrichies avec scores
-        rapports/        Rapports PDF generes
+        fds_raw.csv      Données brutes extraites
+        fds_clean.csv    Données enrichies avec scores
+        rapports/        Rapports PDF generés
 
 ---
 
@@ -78,11 +75,11 @@ avec trois niveaux : Conforme, Modere, Critique.
 
 ## Configuration OpenAI (optionnel)
 
-Creer un fichier .env a la racine :
+Créer un fichier .env a la racine :
 
-    OPENAI_API_KEY=sk-...votre_cle...
+    OPENAI_API_KEY=sk-...votre_clé...
 
-Sans cle API, le systeme fonctionne en mode simulation avec des analyses pre-definies.
+Sans clé API, le systeme fonctionne en mode simulation avec des analyses pre-définies.
 
 ---
 
@@ -93,8 +90,8 @@ Sans cle API, le systeme fonctionne en mode simulation avec des analyses pre-def
     Critiques         : 2 (40%)
 
     Produits critiques identifies :
-    - Degraissant solvant chlore HD  (10/100) — COV x3.9, non-conforme REACH
-    - Decapant sol industriel        (10/100) — COV x4.8, 3 substances SVHC
+    - Dégraissant solvant chlore HD  (10/100) — COV x3.9, non-conforme REACH
+    - Décapant sol industriel        (10/100) — COV x4.8, 3 substances SVHC
 
 ---
 
@@ -102,8 +99,8 @@ Sans cle API, le systeme fonctionne en mode simulation avec des analyses pre-def
 
 Philippe Kirstetter-Fender
 
-Data Engineer passionne par l industrie et la conformite reglementaire.
-Profil hybride : competences techniques (Python, LLM, pipelines de donnees)
+Data Engineer passionné par l industrie et la conformité réglementaire.
+Profil hybride : competences techniques (Python, LLM, pipelines de données)
 et experience terrain dans le secteur du nettoyage industriel.
 
 
