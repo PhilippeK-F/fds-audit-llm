@@ -1,34 +1,41 @@
+# Audit FDS + LLM — Conformité Réglementaire
+
+Audit automatique de conformité des produits de nettoyage industriel
+aux normes REACH, CLP et Ecolabel EU, avec analyse par intelligence artificielle.
+
+---
+
 ## Pourquoi ce projet ?
 
 Les entreprises de nettoyage industriel utilisent des dizaines de produits chimiques.
 Vérifier manuellement la conformité de chaque produit aux normes européennes
-(REACH, CLP, directive COV, Écolabel EU) est une tâche longue, technique et à risque.
+(REACH, CLP, directive COV, Ecolabel EU) est une tâche longue, technique et a risque.
 
 Ce projet automatise entièrement cet audit : il analyse les indicateurs de chaque
-produit, détecte les écarts réglementaires, et génère un rapport détaillé
+produit, détecte les écarts réglementaires, et génère un rapport detaillé
 avec recommandations — en quelques secondes.
 
 ---
+## FDS = Fiche de Données de Sécurité
 
-## FDS = Fiche de Données de SécuritéFDS = Fiche de Données de Sécurité
+C'est un document obligatoire que chaque fabricant de produit chimique doit fournir à ses clients professionnels. Elle contient toutes les informations sur :
 
-C'est le document obligatoire fourni par chaque fabricant de produit chimique. Il contient :
-
-La composition du produit
+La composition du produit (substances actives)
 Les dangers pour la santé et l'environnement
 Les équipements de protection nécessaires
-La conformité REACH, CLP...
+Les premiers secours en cas d'accident
+Les conditions de stockage et transport
+La conformité réglementaire (REACH, CLP...)
 
 ---
-
 ## Ce que le système analyse
 
 Pour chaque produit, le pipeline vérifie :
-- COV (Composés Organiques Volatils) vs directive 1999/13/CE (seuil : 30 g/L)
-- Biodégradabilité vs critères Écolabel EU (seuil : 60%)
-- Écotoxicité aquatique LC50 vs classification CLP (seuil : 10 mg/L)
+- COV (Composes Organiques Volatils) vs directive 1999/13/CE (seuil : 30 g/L)
+- Biodegradabilité vs critères Ecolabel EU (seuil : 60%)
+- Ecotoxicite aquatique LC50 vs classification CLP (seuil : 10 mg/L)
 - Conformité REACH et enregistrement ECHA
-- pH dans les limites de sécurité (4 à 11)
+- pH dans les limites de securité (4 a 11)
 
 Un score de conformité sur 100 est calculé pour chaque produit,
 avec trois niveaux : Conforme, Modéré, Critique.
@@ -38,8 +45,8 @@ avec trois niveaux : Conforme, Modéré, Critique.
 ## Architecture
 
     src/pipelines/
-        extract.py       Extraction des données FDS (simulation ou vrais PDF)
-        transform.py     Calcul des scores et alertes réglementaires
+        extract.py       Extraction des donnees FDS (simulation ou vrais PDF)
+        transform.py     Calcul des scores et alertes reglementaires
         run_pipeline.py  Orchestration ETL
 
     src/llm/
@@ -52,7 +59,7 @@ avec trois niveaux : Conforme, Modéré, Critique.
     data/
         fds_raw.csv      Données brutes extraites
         fds_clean.csv    Données enrichies avec scores
-        rapports/        Rapports PDF générés
+        rapports/        Rapports PDF generés
 
 ---
 
@@ -68,30 +75,32 @@ avec trois niveaux : Conforme, Modéré, Critique.
 
 ## Configuration OpenAI (optionnel)
 
-Créer un fichier .env à la racine :
+Créer un fichier .env a la racine :
 
-    OPENAI_API_KEY=sk-...votre_cle...
+    OPENAI_API_KEY=sk-...votre_clé...
 
-Sans clé API, le système fonctionne en mode simulation avec des analyses pré-définies.
+Sans clé API, le systeme fonctionne en mode simulation avec des analyses pre-définies.
 
 ---
 
-## Résultats
+## Resultats
 
-    Produits analysés : 5
+    Produits analyses : 5
     Conformes         : 3 (60%)
     Critiques         : 2 (40%)
 
-    Produits critiques identifiés :
-    - Dégraissant solvant chloré  (10/100) — COV x3.9, non-conforme REACH
-    - Décapant sol industriel     (10/100) — COV x4.8, 3 substances SVHC
+    Produits critiques identifies :
+    - Dégraissant solvant chlore HD  (10/100) — COV x3.9, non-conforme REACH
+    - Décapant sol industriel        (10/100) — COV x4.8, 3 substances SVHC
 
 ---
 
 ## Auteur
 
-Philippe Kirstetter-Fender 
+Philippe Kirstetter-Fender
 
-Data Engineer passionné par l'industrie et la conformité réglementaire.
-Profil hybride : compétences techniques (Python, LLM, pipelines de données)
-et expérience terrain dans le secteur du nettoyage industriel.
+Data Engineer passionné par l industrie et la conformité réglementaire.
+Profil hybride : competences techniques (Python, LLM, pipelines de données)
+et experience terrain dans le secteur du nettoyage industriel.
+
+

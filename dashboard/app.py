@@ -5,7 +5,7 @@ import os
 import subprocess
 
 st.set_page_config(
-    page_title="Audit FDS - Conformite Reglementaire",
+    page_title="Audit FDS - Conformité Réglementaire",
     page_icon="📋",
     layout="wide"
 )
@@ -17,7 +17,7 @@ def load_data():
     return pd.read_csv("data/fds_clean.csv")
 
 st.title("Audit de Conformité Réglementaire")
-st.caption("Produits de nettoyage industriel — REACH / CLP / Écolabel EU")
+st.caption("Produits de nettoyage industriel - REACH / CLP / Ecolabel EU")
 
 if st.button("Relancer l'analyse complète"):
     with st.spinner("Analyse en cours..."):
@@ -28,14 +28,14 @@ if st.button("Relancer l'analyse complète"):
 df = load_data()
 
 if df is None:
-    st.warning("Aucune donnée. Cliquez sur Relancer l'analyse.")
+    st.warning("Aucune donnée. Cliquez sur Relancer l analyse.")
     st.stop()
 
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Produits analysés",  len(df))
-c2.metric("Conformes",          len(df[df["score_conformite"] >= 70]))
-c3.metric("À surveiller",       len(df[(df["score_conformite"] >= 40) & (df["score_conformite"] < 70)]))
-c4.metric("Critiques",          len(df[df["score_conformite"] < 40]))
+c2.metric("Conformes",          len(df[df["score_conformité"] >= 70]))
+c3.metric("À surveiller",       len(df[(df["score_conformité"] >= 40) & (df["score_conformité"] < 70)]))
+c4.metric("Critiques",          len(df[df["score_conformité"] < 40]))
 
 st.divider()
 
@@ -44,14 +44,14 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("Score de conformité par produit")
     fig1 = px.bar(
-        df.sort_values("score_conformite"),
-        x="score_conformite",
+        df.sort_values("score_conformité"),
+        x="score_conformité",
         y="produit",
         orientation="h",
-        color="score_conformite",
+        color="score_conformité",
         color_continuous_scale="RdYlGn",
         range_color=[0, 100],
-        labels={"score_conformite": "Score /100", "produit": ""}
+        labels={"score_conformité": "Score /100", "produit": ""}
     )
     fig1.update_layout(coloraxis_showscale=False)
     st.plotly_chart(fig1, use_container_width=True)
@@ -88,15 +88,15 @@ fig3 = px.scatter(
     },
     labels={
         "cov_g_par_l":          "COV (g/L)",
-        "biodegradabilite_pct": "Biodégradabilité (%)",
+        "biodegradabilite_pct": "Biodegradabilite (%)",
         "niveau_risque":        "Niveau"
     }
 )
-fig3.add_vline(x=30, line_dash="dash", line_color="orange", annotation_text="Seuil COV max")
-fig3.add_hline(y=60, line_dash="dash", line_color="orange", annotation_text="Seuil biodég. min")
+fig3.add_vline(x=30,  line_dash="dash", line_color="orange", annotation_text="Seuil COV max")
+fig3.add_hline(y=60,  line_dash="dash", line_color="orange", annotation_text="Seuil biodeg min")
 st.plotly_chart(fig3, use_container_width=True)
 
-st.subheader("Détail des alertes par produit")
+st.subheader("Detail des alertes par produit")
 cols_alertes = ["produit", "score_conformite", "niveau_risque",
                 "alerte_reach", "alerte_cov", "alerte_biodeg",
                 "alerte_lc50", "alerte_ph", "nb_alertes"]
