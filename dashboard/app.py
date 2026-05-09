@@ -16,25 +16,25 @@ def load_data():
         return None
     return pd.read_csv("data/fds_clean.csv")
 
-st.title("Audit de Conformite Reglementaire")
-st.caption("Produits de nettoyage industriel - REACH / CLP / Ecolabel EU")
+st.title("Audit de Conformité Réglementaire")
+st.caption("Produits de nettoyage industriel — REACH / CLP / Écolabel EU")
 
-if st.button("Relancer l analyse complete"):
+if st.button("Relancer l'analyse complète"):
     with st.spinner("Analyse en cours..."):
         subprocess.run(["python", "run.py"])
     st.cache_data.clear()
-    st.success("Analyse terminee !")
+    st.success("Analyse terminée !")
 
 df = load_data()
 
 if df is None:
-    st.warning("Aucune donnee. Cliquez sur Relancer l analyse.")
+    st.warning("Aucune donnée. Cliquez sur Relancer l'analyse.")
     st.stop()
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Produits analyses",  len(df))
+c1.metric("Produits analysés",  len(df))
 c2.metric("Conformes",          len(df[df["score_conformite"] >= 70]))
-c3.metric("A surveiller",       len(df[(df["score_conformite"] >= 40) & (df["score_conformite"] < 70)]))
+c3.metric("À surveiller",       len(df[(df["score_conformite"] >= 40) & (df["score_conformite"] < 70)]))
 c4.metric("Critiques",          len(df[df["score_conformite"] < 40]))
 
 st.divider()
@@ -42,7 +42,7 @@ st.divider()
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Score de conformite par produit")
+    st.subheader("Score de conformité par produit")
     fig1 = px.bar(
         df.sort_values("score_conformite"),
         x="score_conformite",
@@ -57,7 +57,7 @@ with col1:
     st.plotly_chart(fig1, use_container_width=True)
 
 with col2:
-    st.subheader("Repartition par niveau de risque")
+    st.subheader("Répartition par niveau de risque")
     risque_count = df["niveau_risque"].value_counts().reset_index()
     risque_count.columns = ["niveau", "nb"]
     fig2 = px.pie(
@@ -88,15 +88,15 @@ fig3 = px.scatter(
     },
     labels={
         "cov_g_par_l":          "COV (g/L)",
-        "biodegradabilite_pct": "Biodegradabilite (%)",
+        "biodegradabilite_pct": "Biodégradabilité (%)",
         "niveau_risque":        "Niveau"
     }
 )
-fig3.add_vline(x=30,  line_dash="dash", line_color="orange", annotation_text="Seuil COV max")
-fig3.add_hline(y=60,  line_dash="dash", line_color="orange", annotation_text="Seuil biodeg min")
+fig3.add_vline(x=30, line_dash="dash", line_color="orange", annotation_text="Seuil COV max")
+fig3.add_hline(y=60, line_dash="dash", line_color="orange", annotation_text="Seuil biodég. min")
 st.plotly_chart(fig3, use_container_width=True)
 
-st.subheader("Detail des alertes par produit")
+st.subheader("Détail des alertes par produit")
 cols_alertes = ["produit", "score_conformite", "niveau_risque",
                 "alerte_reach", "alerte_cov", "alerte_biodeg",
                 "alerte_lc50", "alerte_ph", "nb_alertes"]
@@ -111,7 +111,7 @@ if os.path.exists("data/rapports/audit_fds.pdf"):
     st.subheader("Rapport PDF")
     with open("data/rapports/audit_fds.pdf", "rb") as f:
         st.download_button(
-            label="Telecharger le rapport PDF",
+            label="Télécharger le rapport PDF",
             data=f,
             file_name="audit_fds_conformite.pdf",
             mime="application/pdf"

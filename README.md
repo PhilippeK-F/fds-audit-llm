@@ -1,68 +1,58 @@
-# Audit FDS + LLM — Conformite Reglementaire
-
-Audit automatique de conformite des produits de nettoyage industriel
-aux normes REACH, CLP et Ecolabel EU, avec analyse par intelligence artificielle.
-
----
-
 ## Pourquoi ce projet ?
 
 Les entreprises de nettoyage industriel utilisent des dizaines de produits chimiques.
-Verifier manuellement la conformite de chaque produit aux normes europeennes
-(REACH, CLP, directive COV, Ecolabel EU) est une tache longue, technique et a risque.
+Vérifier manuellement la conformité de chaque produit aux normes européennes
+(REACH, CLP, directive COV, Écolabel EU) est une tâche longue, technique et à risque.
 
-Ce projet automatise entierement cet audit : il analyse les indicateurs de chaque
-produit, detecte les ecarts reglementaires, et genere un rapport detaille
+Ce projet automatise entièrement cet audit : il analyse les indicateurs de chaque
+produit, détecte les écarts réglementaires, et génère un rapport détaillé
 avec recommandations — en quelques secondes.
 
 ---
-## FDS = Fiche de Données de Sécurité
 
-C'est un document obligatoire que chaque fabricant de produit chimique doit fournir à ses clients professionnels. Elle contient toutes les informations sur :
+## FDS = Fiche de Données de SécuritéFDS = Fiche de Données de Sécurité
 
-La composition du produit (substances actives)
+C'est le document obligatoire fourni par chaque fabricant de produit chimique. Il contient :
+
+La composition du produit
 Les dangers pour la santé et l'environnement
 Les équipements de protection nécessaires
-Les premiers secours en cas d'accident
-Les conditions de stockage et transport
-La conformité réglementaire (REACH, CLP...)
-
-En nettoyage industriel, chaque produit que tu utilisais sur le terrain avait obligatoirement une FDS fournie par le fabricant — c'est ce document qu'on simule dans le projet.
-En anglais c'est SDS — Safety Data Sheet.
+La conformité REACH, CLP...
 
 ---
-## Ce que le systeme analyse
 
-Pour chaque produit, le pipeline verifie :
-- COV (Composes Organiques Volatils) vs directive 1999/13/CE (seuil : 30 g/L)
-- Biodegradabilite vs criteres Ecolabel EU (seuil : 60%)
-- Ecotoxicite aquatique LC50 vs classification CLP (seuil : 10 mg/L)
-- Conformite REACH et enregistrement ECHA
-- pH dans les limites de securite (4 a 11)
+## Ce que le système analyse
 
-Un score de conformite sur 100 est calcule pour chaque produit,
-avec trois niveaux : Conforme, Modere, Critique.
+Pour chaque produit, le pipeline vérifie :
+- COV (Composés Organiques Volatils) vs directive 1999/13/CE (seuil : 30 g/L)
+- Biodégradabilité vs critères Écolabel EU (seuil : 60%)
+- Écotoxicité aquatique LC50 vs classification CLP (seuil : 10 mg/L)
+- Conformité REACH et enregistrement ECHA
+- pH dans les limites de sécurité (4 à 11)
+
+Un score de conformité sur 100 est calculé pour chaque produit,
+avec trois niveaux : Conforme, Modéré, Critique.
 
 ---
 
 ## Architecture
 
     src/pipelines/
-        extract.py       Extraction des donnees FDS (simulation ou vrais PDF)
-        transform.py     Calcul des scores et alertes reglementaires
+        extract.py       Extraction des données FDS (simulation ou vrais PDF)
+        transform.py     Calcul des scores et alertes réglementaires
         run_pipeline.py  Orchestration ETL
 
     src/llm/
         analyzer.py      Analyse par LLM (OpenAI GPT-4o-mini ou simulation)
-        reporter.py      Generation du rapport PDF (ReportLab)
+        reporter.py      Génération du rapport PDF (ReportLab)
 
     dashboard/
         app.py           Dashboard Streamlit interactif
 
     data/
-        fds_raw.csv      Donnees brutes extraites
-        fds_clean.csv    Donnees enrichies avec scores
-        rapports/        Rapports PDF generes
+        fds_raw.csv      Données brutes extraites
+        fds_clean.csv    Données enrichies avec scores
+        rapports/        Rapports PDF générés
 
 ---
 
@@ -78,32 +68,30 @@ avec trois niveaux : Conforme, Modere, Critique.
 
 ## Configuration OpenAI (optionnel)
 
-Creer un fichier .env a la racine :
+Créer un fichier .env à la racine :
 
     OPENAI_API_KEY=sk-...votre_cle...
 
-Sans cle API, le systeme fonctionne en mode simulation avec des analyses pre-definies.
+Sans clé API, le système fonctionne en mode simulation avec des analyses pré-définies.
 
 ---
 
-## Resultats
+## Résultats
 
-    Produits analyses : 5
+    Produits analysés : 5
     Conformes         : 3 (60%)
     Critiques         : 2 (40%)
 
-    Produits critiques identifies :
-    - Degraissant solvant chlore HD  (10/100) — COV x3.9, non-conforme REACH
-    - Decapant sol industriel        (10/100) — COV x4.8, 3 substances SVHC
+    Produits critiques identifiés :
+    - Dégraissant solvant chloré  (10/100) — COV x3.9, non-conforme REACH
+    - Décapant sol industriel     (10/100) — COV x4.8, 3 substances SVHC
 
 ---
 
 ## Auteur
 
-Philippe Kirstetter-Fender
+Philippe Kirstetter-Fender 
 
-Data Engineer passionne par l industrie et la conformite reglementaire.
-Profil hybride : competences techniques (Python, LLM, pipelines de donnees)
-et experience terrain dans le secteur du nettoyage industriel.
-
-
+Data Engineer passionné par l'industrie et la conformité réglementaire.
+Profil hybride : compétences techniques (Python, LLM, pipelines de données)
+et expérience terrain dans le secteur du nettoyage industriel.
